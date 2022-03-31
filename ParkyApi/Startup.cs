@@ -8,10 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ParkyApi.Data;
+using ParkyApi.Repositories;
+using ParkyApi.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using ParkyApi.ParkyMapper;
 
 namespace ParkyApi
 {
@@ -28,6 +32,10 @@ namespace ParkyApi
         public void ConfigureServices(IServiceCollection services)
         {
            services.AddDbContext<EFContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<INationalParkRepository, NationalParkRepository>();
+            services.AddAutoMapper(typeof(ParkyMappings));
+             
             services.AddControllers();
         }
 
